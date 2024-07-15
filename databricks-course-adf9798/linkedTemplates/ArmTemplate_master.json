@@ -1,0 +1,77 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "databricks-course-adf9798"
+		},
+		"ls_f1dl9798_storage_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_f1dl9798_storage'"
+		},
+		"ls_databricks_course_ws_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0616-193505-s4e5wppa"
+		},
+		"ls_f1dl9798_storage_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://f1dl9798.dfs.core.windows.net/"
+		},
+		"tr_execute_f1_data_properties_pipeline_parameters_p_window_end_date": {
+			"type": "string",
+			"defaultValue": "@trigger().outputs.windowEndTime"
+		},
+		"tr_execute_f1_data_properties_pipeline_parameters_p_file_source": {
+			"type": "string",
+			"defaultValue": "trigger"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "databricks-course-adf9798_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"ls_f1dl9798_storage_accountKey": {
+						"value": "[parameters('ls_f1dl9798_storage_accountKey')]"
+					},
+					"ls_databricks_course_ws_properties_typeProperties_existingClusterId": {
+						"value": "[parameters('ls_databricks_course_ws_properties_typeProperties_existingClusterId')]"
+					},
+					"ls_f1dl9798_storage_properties_typeProperties_url": {
+						"value": "[parameters('ls_f1dl9798_storage_properties_typeProperties_url')]"
+					},
+					"tr_execute_f1_data_properties_pipeline_parameters_p_window_end_date": {
+						"value": "[parameters('tr_execute_f1_data_properties_pipeline_parameters_p_window_end_date')]"
+					},
+					"tr_execute_f1_data_properties_pipeline_parameters_p_file_source": {
+						"value": "[parameters('tr_execute_f1_data_properties_pipeline_parameters_p_file_source')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

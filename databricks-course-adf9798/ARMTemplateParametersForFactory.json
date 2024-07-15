@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "databricks-course-adf9798"
+		},
+		"ls_f1dl9798_storage_accountKey": {
+			"value": ""
+		},
+		"ls_databricks_course_ws_properties_typeProperties_existingClusterId": {
+			"value": "0616-193505-s4e5wppa"
+		},
+		"ls_f1dl9798_storage_properties_typeProperties_url": {
+			"value": "https://f1dl9798.dfs.core.windows.net/"
+		},
+		"tr_execute_f1_data_properties_pipeline_parameters_p_window_end_date": {
+			"value": "@trigger().outputs.windowEndTime"
+		},
+		"tr_execute_f1_data_properties_pipeline_parameters_p_file_source": {
+			"value": "trigger"
+		}
+	}
+}
