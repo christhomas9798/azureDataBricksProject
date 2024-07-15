@@ -1,0 +1,74 @@
+{
+	"name": "pl_process_formula1_data",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute ingestion",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_ingest_raw_data",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"p_window_end_date": {
+							"value": "@formatDateTime(pipeline().parameters.p_window_end_date,'yyyy-MM-dd')",
+							"type": "Expression"
+						},
+						"p_data_source": {
+							"value": "@pipeline().parameters.p_file_source",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "Execute transformation",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Execute ingestion",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_transform_processed_data",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"p_file_date": {
+							"value": "@formatDateTime(pipeline().parameters.p_window_end_date,'yyyy-MM-dd')",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		],
+		"concurrency": 1,
+		"parameters": {
+			"p_window_end_date": {
+				"type": "string"
+			},
+			"p_file_source": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-07-03T10:00:01Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

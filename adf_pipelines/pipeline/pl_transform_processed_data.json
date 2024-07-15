@@ -1,0 +1,167 @@
+{
+	"name": "pl_transform_processed_data",
+	"properties": {
+		"activities": [
+			{
+				"name": "create presentation db",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/christhomas9798@gmail.com/f1/trans/0.create_presentation_database"
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_databricks_course_ws",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "race results",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "create presentation db",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/christhomas9798@gmail.com/f1/trans/1.race_results",
+					"baseParameters": {
+						"p_file_date": {
+							"value": "@formatDateTime(pipeline().parameters.p_file_date)",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_databricks_course_ws",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "driver_standings",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "race results",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/christhomas9798@gmail.com/f1/trans/2.driver_standings",
+					"baseParameters": {
+						"p_file_date": {
+							"value": "@formatDateTime(pipeline().parameters.p_file_date)",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_databricks_course_ws",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "constructor_standings",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "race results",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/christhomas9798@gmail.com/f1/trans/3.constructor_standings",
+					"baseParameters": {
+						"p_file_date": {
+							"value": "@formatDateTime(pipeline().parameters.p_file_date)",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_databricks_course_ws",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "calculated race results",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "create presentation db",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/christhomas9798@gmail.com/f1/trans/4.calculated_race_results",
+					"baseParameters": {
+						"p_file_date": {
+							"value": "@formatDateTime(pipeline().parameters.p_file_date)",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_databricks_course_ws",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"p_file_date": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-07-02T19:54:24Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

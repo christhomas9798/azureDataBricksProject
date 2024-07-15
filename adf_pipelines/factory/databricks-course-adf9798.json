@@ -1,0 +1,9 @@
+{
+	"name": "databricks-course-adf9798",
+	"location": "uksouth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "de5fcf02-9f6c-4b70-9e4d-979fb7b11eb5",
+		"tenantId": "3238e6ac-c96e-49af-8f71-b2b02888b579"
+	}
+}
